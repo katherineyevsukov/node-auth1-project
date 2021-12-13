@@ -2,6 +2,9 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 
+const session = require('express-session')
+const Store = require('connect-session-knex')(session)
+
 /**
   Do what needs to be done to support sessions with the `express-session` package!
   To respect users' privacy, do NOT send them a cookie unless they log in.
