@@ -1,3 +1,5 @@
+const { useStore } = require("react-redux")
+
 /*
   If the user does not have a session saved in the server
 
@@ -44,8 +46,19 @@ async function checkUsernameFree(req, res, next) {
     "message": "Invalid credentials"
   }
 */
-function checkUsernameExists() {
-
+async function checkUsernameExists(req, res, next) {
+  const { username } = req.body
+  try{
+    const user = await User.findBy({ username })
+    if (user.length > 0){
+      req.passwordFromDb = user[0].password
+      next()
+    } else {
+      return next({ status: 401, message: 'Invalid credentials'})
+    }
+  }catch(err){
+    next(err)
+  }
 }
 
 /*
