@@ -22,8 +22,18 @@ function restricted() {
     "message": "Username taken"
   }
 */
-function checkUsernameFree() {
-
+async function checkUsernameFree(req, res, next) {
+  const { username } = req.body
+  try{
+    const user = await User.findBy({ username })
+    if(user.length > 0) {
+      next({status: 422, message: "Username taken"})
+    } else {
+      next()
+    } 
+  }catch(err){
+    next(err)
+  }
 }
 
 /*
@@ -51,3 +61,5 @@ function checkPasswordLength() {
 }
 
 // Don't forget to add these to the `exports` object so they can be required in other modules
+
+module.exports = { restricted, checkUsernameExists, checkUsernameFree, checkPasswordLength}

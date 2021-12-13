@@ -3,6 +3,7 @@
 const router = require('express').Router()
 const bcrypt = require("bcryptjs")
 const User = require("./../users/users-model")
+const {  checkPasswordLength, checkUsernameExists, checkUsernameFree} = require('./auth-middleware')
 
 
 /**
@@ -28,11 +29,11 @@ const User = require("./../users/users-model")
   }
  */
 
-  router.post('/register', async (req, res, next) => {
+  router.post('/register', checkUsernameFree, async (req, res, next) => {
     try{
       const { username, password } = req.body
-      const hash = bcrypt.hashSync(password, 7)
-      const newUser = await { username, password: hash }
+      const hash = bcrypt.hashSync(password, 6)
+      const newUser = { username, password: hash }
       const user = await User.add(newUser)
       res.status(201).json(user)
     } catch(err){
