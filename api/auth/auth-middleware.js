@@ -1,4 +1,4 @@
-const { useStore } = require("react-redux")
+const User = require('./../users/users-model')
 
 /*
   If the user does not have a session saved in the server
@@ -70,7 +70,7 @@ async function checkUsernameExists(req, res, next) {
   }
 */
 function checkPasswordLength(req, res, next) {
-  if(req.body.password || req.body.password.length <= 3){
+  if(!req.body.password || req.body.password.length <= 3){
     next({ status: 422, message: 'Password must be longer than 3 chars'})
   } else {
     next()

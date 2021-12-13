@@ -48,7 +48,7 @@ server.use(
   })
 );
 
-server.use('/api/aut', authRouter)
+server.use('/api/auth', authRouter)
 server.use('/api/user', usersRouter)
 
 server.get("/", (req, res) => {
